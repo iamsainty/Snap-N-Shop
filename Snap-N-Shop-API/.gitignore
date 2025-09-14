@@ -1,0 +1,17 @@
+bin/
+obj/
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.DS_Store
+.vscode/
+*.db
+appsettings*.json
+secrets.json
+# User secrets (don't commit)
+secrets.json
+# nuget
+packages/
+*.nupkg
