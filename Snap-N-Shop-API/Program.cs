@@ -1,11 +1,18 @@
+using Snap_N_Shop_API.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.AddDbContext<MyDbContext>(
+    options => options.UseSqlServer(connectionString)
+);
 
 var app = builder.Build();
 
-// Simple health / test endpoint
-app.MapGet("/", () => "Hello from Snap-N-Shop API - backend is up");
+app.MapGet("/", () => "Hello from Snap-N-Shop API - backend is up hello");
 
-// Simple JSON endpoint to show minimal API usage
 app.MapGet("/health", () => Results.Ok(new { status = "ok", timestamp = DateTime.UtcNow }));
 
 app.Run();
