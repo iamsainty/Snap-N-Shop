@@ -16,7 +16,7 @@ namespace Snap_N_Shop_API.Data
         public DbSet<Order> Orders { get; set; } = null!;
         public DbSet<OrderItem> OrderItems { get; set; } = null!;
         public DbSet<Cart> CartItems { get; set; } = null!;
-
+        public DbSet<EmailOtp> EmailOtps { get; set; } = null!;
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
