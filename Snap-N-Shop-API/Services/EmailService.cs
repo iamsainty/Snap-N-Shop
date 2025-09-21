@@ -14,15 +14,17 @@ namespace Snap_N_Shop_API.Services
             _smtpSettings = smtpSettings.Value;
         }
 
-        public async Task SendOtpEmail(string toEmail, string otp)
+        public async Task<bool> SendOtpEmail(string toEmail, string otp)
         {
-            var message = new MimeMessage();
-            message.From.Add(new MailboxAddress("Snap N Shop", _smtpSettings.UserName));
-            message.To.Add(new MailboxAddress("", toEmail));
-            message.Subject = "Your OTP Code";
-            message.Body = new TextPart("html")
+            try
             {
-                Text = $@"
+                var message = new MimeMessage();
+                message.From.Add(new MailboxAddress("Snap N Shop", _smtpSettings.UserName));
+                message.To.Add(new MailboxAddress("", toEmail));
+                message.Subject = "Your OTP Code";
+                message.Body = new TextPart("html")
+                {
+                    Text = $@"
                     <div style=""font-family: Arial, sans-serif; font-size: 16px; color: #333;"">
                         <p>Hi there,</p>
                         <p>We received a request to sign in to your <strong>Snap N Shop</strong> account.</p>
@@ -41,14 +43,22 @@ namespace Snap_N_Shop_API.Services
                         
                         <p style=""font-size: 14px; color: #777; margin-top: 5px;"">— The Snap N Shop Team</p>
                     </div>"
-            };
+                };
 
-            using (var client = new SmtpClient())
+                using (var client = new SmtpClient())
+                {
+                    await client.ConnectAsync(_smtpSettings.Host, _smtpSettings.Port, SecureSocketOptions.StartTls);
+                    await client.AuthenticateAsync(_smtpSettings.UserName, _smtpSettings.Password);
+                    await client.SendAsync(message);
+                    await client.DisconnectAsync(true);
+                }
+
+                return true;
+            }
+            catch (Exception ex)
             {
-                await client.ConnectAsync(_smtpSettings.Host, _smtpSettings.Port, SecureSocketOptions.StartTls);
-                await client.AuthenticateAsync(_smtpSettings.UserName, _smtpSettings.Password);
-                await client.SendAsync(message);
-                await client.DisconnectAsync(true);
+                Console.WriteLine(ex.Message);
+                return false;
             }
         }
     }
