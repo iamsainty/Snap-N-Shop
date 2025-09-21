@@ -1,9 +1,11 @@
 using Snap_N_Shop_API.Data;
 using Microsoft.EntityFrameworkCore;
+using Snap_N_Shop_API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("SmtpSettings"));
 
 builder.Services.AddDbContext<MyDbContext>(
     options => options.UseSqlServer(connectionString)
