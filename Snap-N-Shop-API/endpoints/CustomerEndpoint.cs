@@ -4,7 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Snap_N_Shop_API.Models;
 using Snap_N_Shop_API.Services;
 using Snap_N_Shop_API.Data;
-using Snap_N_Shop_API.DTO.CustomerDTO;
+using Snap_N_Shop_API.DTO.CustomerDTO.Token;
+using Snap_N_Shop_API.DTO.CustomerDTO.OtpAuth;
 
 namespace Snap_N_Shop_API.Endpoints
 {
@@ -146,9 +147,32 @@ namespace Snap_N_Shop_API.Endpoints
                     emailOtp.IsUsed = true;
                     await db.SaveChangesAsync();
 
+                    var customer = await db.Customers.FirstOrDefaultAsync(c => c.Email == email);
+
+                    if (customer == null)
+                    {
+                        customer = new Customer
+                        {
+                            Email = email,
+                            IsProfileComplete = false,
+                            CreatedAt = DateTime.UtcNow
+                        };
+                        db.Customers.Add(customer);
+                        await db.SaveChangesAsync();
+                    }
+
+                    var customerToken = GenerateToken.Generate(new GenTokenRequest
+                    {
+                        CustomerId = customer.CustomerId.ToString(),
+                        Email = email
+                    },
+                        app.Configuration
+                    );
+
                     return Results.Json(new VerifyOtpResponse
                     {
                         Success = true,
+                        CustomerToken = customerToken.CustomerToken,
                         Message = "OTP verified"
                     });
 
