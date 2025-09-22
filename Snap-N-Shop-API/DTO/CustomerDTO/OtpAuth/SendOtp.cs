@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Snap_N_Shop_API.DTO.CustomerDTO
+namespace Snap_N_Shop_API.DTO.CustomerDTO.OtpAuth
 {
     public class SendOtpRequest
     {
