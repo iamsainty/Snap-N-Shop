@@ -88,6 +88,90 @@ namespace Snap_N_Shop_API.Endpoints
                     });
                 }
             });
+
+            customerRoute.MapPost("/verify-otp", async (VerifyOtpRequest request, MyDbContext db) =>
+            {
+                try
+                {
+                    var email = request.Email;
+                    var otp = request.Otp;
+
+                    if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(otp))
+                    {
+                        return Results.Json(new VerifyOtpResponse
+                        {
+                            Success = false,
+                            Message = "Email and OTP are required"
+                        });
+                    }
+
+                    var emailOtp = await db.EmailOtps.Where(e => e.Email == email).OrderByDescending(e => e.CreatedAt).FirstOrDefaultAsync();
+
+                    if (emailOtp == null)
+                    {
+                        return Results.Json(new VerifyOtpResponse
+                        {
+                            Success = false,
+                            Message = "Email not found"
+                        });
+                    }
+
+                    if (emailOtp.OtpCode != otp)
+                    {
+                        return Results.Json(new VerifyOtpResponse
+                        {
+                            Success = false,
+                            Message = "Invalid OTP"
+                        });
+                    }
+
+                    if (emailOtp.ExpiresAt < DateTime.UtcNow)
+                    {
+                        return Results.Json(new VerifyOtpResponse
+                        {
+                            Success = false,
+                            Message = "OTP expired"
+                        });
+                    }
+
+                    if (emailOtp.IsUsed)
+                    {
+                        return Results.Json(new VerifyOtpResponse
+                        {
+                            Success = false,
+                            Message = "OTP already used"
+                        });
+                    }
+
+                    emailOtp.IsUsed = true;
+                    await db.SaveChangesAsync();
+
+                    return Results.Json(new VerifyOtpResponse
+                    {
+                        Success = true,
+                        Message = "OTP verified"
+                    });
+
+                }
+                catch (DbUpdateException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return Results.Json(new VerifyOtpResponse
+                    {
+                        Success = false,
+                        Message = "Database error"
+                    });
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return Results.Json(new VerifyOtpResponse
+                    {
+                        Success = false,
+                        Message = "Unexpected error"
+                    });
+                }
+            });
         }
     }
 }
