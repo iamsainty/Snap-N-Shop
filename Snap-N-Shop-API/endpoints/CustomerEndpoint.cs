@@ -6,6 +6,7 @@ using Snap_N_Shop_API.Services;
 using Snap_N_Shop_API.Data;
 using Snap_N_Shop_API.DTO.CustomerDTO.Token;
 using Snap_N_Shop_API.DTO.CustomerDTO.OtpAuth;
+using Snap_N_Shop_API.Services.AuthToken;
 
 namespace Snap_N_Shop_API.Endpoints
 {

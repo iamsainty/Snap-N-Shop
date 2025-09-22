@@ -4,7 +4,7 @@ using System.Text;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 
-namespace Snap_N_Shop_API.Services
+namespace Snap_N_Shop_API.Services.AuthToken
 {
     public class GenerateToken
     {
