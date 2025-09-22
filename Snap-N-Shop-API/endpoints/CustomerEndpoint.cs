@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Snap_N_Shop_API.Models;
 using Snap_N_Shop_API.Services;
 using Snap_N_Shop_API.Data;
+using Snap_N_Shop_API.DTO.CustomerDTO;
 
 namespace Snap_N_Shop_API.Endpoints
 {
@@ -13,12 +14,19 @@ namespace Snap_N_Shop_API.Endpoints
         {
             var customerRoute = app.MapGroup("/customer");
 
-            customerRoute.MapPost("/send-otp", async (string email, EmailService emailService, MyDbContext db) =>
+            customerRoute.MapGet("/test", () => Results.Ok("Customer endpoint is working"));
+
+            customerRoute.MapPost("/send-otp", async (SendOtpRequest request, EmailService emailService, MyDbContext db) =>
             {
                 try
                 {
+                    var email = request.Email;
                     if (string.IsNullOrWhiteSpace(email))
-                        return Results.Json(new { success = false, message = "Email is required" });
+                        return Results.Json(new SendOtpResponse
+                        {
+                            Success = false,
+                            Message = "Email is required"
+                        });
 
                     var otp = new Random().Next(100000, 999999).ToString();
 
@@ -36,25 +44,48 @@ namespace Snap_N_Shop_API.Endpoints
                     bool result = await emailService.SendOtpEmail(email, otp);
 
                     if (result)
-                        return Results.Json(new { success = true, message = $"OTP sent to {email}" });
+                    {
+                        return Results.Json(new SendOtpResponse
+                        {
+                            Success = true,
+                            Message = $"OTP sent to {email}"
+                        });
+                    }
                     else
-                        return Results.Json(new { success = false, message = "Failed to send OTP" });
+                        return Results.Json(new SendOtpResponse
+                        {
+                            Success = false,
+                            Message = "Failed to send OTP"
+                        });
 
                 }
                 catch (DbUpdateException ex)
                 {
                     Console.WriteLine(ex.Message);
-                    return Results.Json(new { success = false, message = "Database error" });
+
+                    return Results.Json(new SendOtpResponse
+                    {
+                        Success = false,
+                        Message = "Database error"
+                    });
                 }
                 catch (InvalidOperationException ex)
                 {
                     Console.WriteLine(ex.Message);
-                    return Results.Json(new { success = false, message = "Invalid operation" });
+                    return Results.Json(new SendOtpResponse
+                    {
+                        Success = false,
+                        Message = "Invalid operation"
+                    });
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
-                    return Results.Json(new { success = false, message = "Unexpected error" });
+                    return Results.Json(new SendOtpResponse
+                    {
+                        Success = false,
+                        Message = "Unexpected error"
+                    });
                 }
             });
         }

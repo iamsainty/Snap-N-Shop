@@ -1,6 +1,7 @@
 using Snap_N_Shop_API.Data;
 using Microsoft.EntityFrameworkCore;
 using Snap_N_Shop_API.Services;
+using Snap_N_Shop_API.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,7 @@ builder.Services.AddDbContext<MyDbContext>(
 
 var app = builder.Build();
 
+app.MapCustomerEndpoints();
 app.MapGet("/", () => "Hello from Snap-N-Shop API - backend is up hello");
 
 app.MapGet("/health", () => Results.Ok(new { status = "ok", timestamp = DateTime.UtcNow }));
