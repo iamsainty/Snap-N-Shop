@@ -7,6 +7,7 @@ using Snap_N_Shop_API.Data;
 using Snap_N_Shop_API.DTO.CustomerDTO.Token;
 using Snap_N_Shop_API.DTO.CustomerDTO.OtpAuth;
 using Snap_N_Shop_API.Services.AuthToken;
+using Snap_N_Shop_API.DTO.CustomerDTO.Profile;
 
 namespace Snap_N_Shop_API.Endpoints
 {
@@ -29,6 +30,10 @@ namespace Snap_N_Shop_API.Endpoints
                             Success = false,
                             Message = "Email is required"
                         });
+
+                    var oldOtps = db.EmailOtps.Where(e => e.Email == email && !e.IsUsed);
+                    db.EmailOtps.RemoveRange(oldOtps);
+                    await db.SaveChangesAsync();
 
                     var otp = new Random().Next(100000, 999999).ToString();
 
@@ -191,6 +196,64 @@ namespace Snap_N_Shop_API.Endpoints
                 {
                     Console.WriteLine(ex.Message);
                     return Results.Json(new VerifyOtpResponse
+                    {
+                        Success = false,
+                        Message = "Unexpected error"
+                    });
+                }
+            });
+
+            customerRoute.MapGet("/fetch-customer", async (HttpContext context, MyDbContext db) =>
+            {
+                try
+                {
+                    var authHeader = context.Request.Headers.Authorization.ToString();
+                    var customerToken = authHeader.StartsWith("Bearer ") ? authHeader[7..] : authHeader;
+
+                    var verificationResult = VerifyToken.Verify(new VerifyTokenRequest
+                    {
+                        CustomerToken = customerToken
+                    },
+                        app.Configuration
+                    );
+                    if (!verificationResult.Success)
+                    {
+                        return Results.Json(new FetchCustomerResponse
+                        {
+                            Success = false,
+                            Message = verificationResult.Message
+                        });
+                    }
+                    var customer = await db.Customers.FirstOrDefaultAsync(c => c.Email == verificationResult.Email);
+                    if (customer == null)
+                    {
+                        return Results.Json(new FetchCustomerResponse
+                        {
+                            Success = false,
+                            Message = "Customer not found"
+                        });
+                    }
+                    return Results.Json(new FetchCustomerResponse
+                    {
+                        Success = true,
+                        Message = "Customer fetched successfully",
+                        Email = customer.Email,
+                        DisplayName = customer.DisplayName ?? string.Empty,
+                        PhoneNumber = customer.PhoneNumber ?? string.Empty,
+                        AddressLine1 = customer.AddressLine1 ?? string.Empty,
+                        AddressLine2 = customer.AddressLine2 ?? string.Empty,
+                        City = customer.City ?? string.Empty,
+                        State = customer.State ?? string.Empty,
+                        PostalCode = customer.PostalCode ?? string.Empty,
+                        Country = customer.Country ?? string.Empty,
+                        IsProfileComplete = customer.IsProfileComplete,
+                        CreatedAt = customer.CreatedAt.DateTime
+                    });
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return Results.Json(new FetchCustomerResponse
                     {
                         Success = false,
                         Message = "Unexpected error"
