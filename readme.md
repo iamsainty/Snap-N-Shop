@@ -99,7 +99,7 @@ Snap-N-Shop/<br>
 
 I will be writing a detailed blog about this project, including behind-the-scenes development stories, challenges, and learnings. You can read it here:
 
-[https://hey-sainty.vercel.app/blog/snap-n-shop](Snap-N-Shop Blog on Hey Sainty)
+[Snap-N-Shop Blog on Hey Sainty](https://hey-sainty.vercel.app/blog/snap-n-shop)
 
 
 ## License
@@ -112,4 +112,4 @@ This project is for training purposes and does not have a public license.
 Feel free to reach out for any queries or suggestions at:
 
 - **Email:** ppriyanshuchaurasia@gmail.com
-- **Website:** [https://hey-sainty.vercel.app](hey-sainty.vercel.app)
+- **Website:** [Hey Sainty](https://hey-sainty.vercel.app)
