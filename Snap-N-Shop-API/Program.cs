@@ -16,6 +16,7 @@ builder.Services.AddDbContext<MyDbContext>(
 var app = builder.Build();
 
 app.MapCustomerEndpoints();
+app.MapProductEndpoints();
 app.MapGet("/", () => "Hello from Snap-N-Shop API - backend is up hello");
 
 app.MapGet("/health", () => Results.Ok(new { status = "ok", timestamp = DateTime.UtcNow }));
