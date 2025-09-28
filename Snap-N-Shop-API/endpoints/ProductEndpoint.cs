@@ -36,7 +36,7 @@ namespace Snap_N_Shop_API.Endpoints
                 }
             });
 
-            productRoute.MapGet("/product-details", async (ProductDetailsRequest request, MyDbContext db) =>
+            productRoute.MapPost("/product-details", async (ProductDetailsRequest request, MyDbContext db) =>
             {
                 try
                 {
@@ -69,7 +69,7 @@ namespace Snap_N_Shop_API.Endpoints
                 }
             });
 
-            productRoute.MapGet("/category-product", async (CategoryProductRequest request, MyDbContext db) =>
+            productRoute.MapPost("/category-product", async (CategoryProductRequest request, MyDbContext db) =>
             {
                 try
                 {
@@ -102,7 +102,7 @@ namespace Snap_N_Shop_API.Endpoints
                 }
             });
 
-            productRoute.MapGet("/search-product", async (SearchProductRequest request, MyDbContext db) =>
+            productRoute.MapPost("/search-product", async (SearchProductRequest request, MyDbContext db) =>
             {
                 try
                 {
