@@ -2,7 +2,6 @@
 
 Snap-N-Shop is a B2C e-commerce platform that allows users to browse, search, and shop for a variety of products across multiple categories. This project was developed as part of my .NET training and demonstrates a full-stack web application using Angular for the client side and ASP.NET Core Minimal APIs for the server side.
 
-
 ## Features
 
 - Browse and search products across different categories
@@ -11,7 +10,6 @@ Snap-N-Shop is a B2C e-commerce platform that allows users to browse, search, an
 - Place orders and manage purchases
 - Classic e-commerce functionalities
 
-
 ## Tech Stack
 
 - **Frontend:** Angular
@@ -19,13 +17,11 @@ Snap-N-Shop is a B2C e-commerce platform that allows users to browse, search, an
 - **Database:** MS SQL Server
 - **Other Tools:** Node.js (for Angular), .NET SDK
 
-
 ## Folder Structure
 
 Snap-N-Shop/<br>
 ├── Snap-N-Shop-Client/  
 └── Snap-N-Shop-API/
-
 
 ## Setup Instructions
 
@@ -39,10 +35,12 @@ Snap-N-Shop/<br>
 ### Server Setup
 
 1. Navigate to the API folder:
+
    ```bash
    cd Snap-N-Shop/Snap-N-Shop-API
 
    ```
+
 2. Restore dependencies:
 
    ```bash
@@ -86,14 +84,12 @@ Snap-N-Shop/<br>
 
 4. Open your browser and go to http://localhost:4200
 
-
 ## Usage
 
-    •	Create an account or login
-    •	Browse products by category or search
-    •	Add items to your cart
-    •	Place orders and view your purchase history
-
+• Create an account or login
+• Browse products by category or search
+• Add items to your cart
+• Place orders and view your purchase history
 
 ## Read More
 
@@ -101,11 +97,9 @@ I will be writing a detailed blog about this project, including behind-the-scene
 
 [Snap-N-Shop Blog on Hey Sainty](https://hey-sainty.vercel.app/blog/snap-n-shop)
 
-
 ## License
 
 This project is for training purposes and does not have a public license.
-
 
 ## Contact
 
