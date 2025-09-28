@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/sainty/Desktop/Projects/Snap-N-Shop/Snap-N-Shop-API/Snap-N-Shop-API.csproj": {}
+    "/Users/sainty/Desktop/Projects/Snap-N-Shop/Snap-N-Shop-Api/Snap-N-Shop-Api.csproj": {}
   },
   "projects": {
-    "/Users/sainty/Desktop/Projects/Snap-N-Shop/Snap-N-Shop-API/Snap-N-Shop-API.csproj": {
+    "/Users/sainty/Desktop/Projects/Snap-N-Shop/Snap-N-Shop-Api/Snap-N-Shop-Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/sainty/Desktop/Projects/Snap-N-Shop/Snap-N-Shop-API/Snap-N-Shop-API.csproj",
-        "projectName": "Snap-N-Shop-API",
-        "projectPath": "/Users/sainty/Desktop/Projects/Snap-N-Shop/Snap-N-Shop-API/Snap-N-Shop-API.csproj",
+        "projectUniqueName": "/Users/sainty/Desktop/Projects/Snap-N-Shop/Snap-N-Shop-Api/Snap-N-Shop-Api.csproj",
+        "projectName": "Snap-N-Shop-Api",
+        "projectPath": "/Users/sainty/Desktop/Projects/Snap-N-Shop/Snap-N-Shop-Api/Snap-N-Shop-Api.csproj",
         "packagesPath": "/Users/sainty/.nuget/packages/",
-        "outputPath": "/Users/sainty/Desktop/Projects/Snap-N-Shop/Snap-N-Shop-API/obj/",
+        "outputPath": "/Users/sainty/Desktop/Projects/Snap-N-Shop/Snap-N-Shop-Api/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/sainty/.nuget/NuGet/NuGet.Config"
