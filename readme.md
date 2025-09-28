@@ -74,35 +74,35 @@ Snap-N-Shop/<br>
 
 4.	Open your browser and go to http://localhost:4200
 
-⸻
+---
 
-Usage
+## Usage
 	•	Create an account or login
 	•	Browse products by category or search
 	•	Add items to your cart
 	•	Place orders and view your purchase history
 
-⸻
+---
 
-Read More
+## Read More
 
 I will be writing a detailed blog about this project, including behind-the-scenes development stories, challenges, and learnings. You can read it here:
 
-Snap-N-Shop Blog on Hey Sainty
+Snap-N-Shop Blog on Hey Sainty [https://hey-sainty.vercel.app/blog/snap-n-shop]
 
-⸻
+---
 
-License
+## License
 
 This project is for training purposes and does not have a public license.
 
-⸻
+---
 
-Contact
+## Contact
 
 Feel free to reach out for any queries or suggestions at:
 	•	Email: ppriyanshuchaurasia@gmail.com
-	•	Website: https://hey-sainty.vercel.app
+	•	Website: hey-sainty.vercel.app[https://hey-sainty.vercel.app]
 
 ---
 
