@@ -1,0 +1,39 @@
+<p>auth works!</p>
+<div class="auth-container">
+  <!-- Left Column -->
+  <div class="auth-left">
+    <div class="content">
+      <img src="https://via.placeholder.com/150" alt="Shopping" />
+      <h2>Explore Wide Range of Products</h2>
+      <p>Sign in to start browsing and shopping with Snap-N-Shop.</p>
+    </div>
+  </div>
+
+  <!-- Right Column -->
+  <div class="auth-right">
+    <h2>Sign In</h2>
+
+    <!-- Email Input -->
+    <input
+      type="email"
+      [(ngModel)]="email"
+      placeholder="Enter your email"
+      [disabled]="otpStep"
+    />
+
+    <!-- OTP Input -->
+    <input
+      type="text"
+      [(ngModel)]="otp"
+      maxlength="6"
+      placeholder="Enter OTP"
+      [disabled]="!otpStep"
+    />
+
+    <!-- Buttons -->
+    <div class="actions">
+      <button *ngIf="!otpStep" (click)="sendOtp()">Next</button>
+      <button *ngIf="otpStep" (click)="verifyOtp()">Get In</button>
+    </div>
+  </div>
+</div>
