@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Nxf0ccKW0m8=",
+  "dgSpecHash": "95UxxQ98KBs=",
   "success": true,
-  "projectFilePath": "/Users/sainty/Desktop/Projects/Snap-N-Shop/Snap-N-Shop-Api/Snap-N-Shop-Api.csproj",
+  "projectFilePath": "/Users/sainty/Desktop/Projects/Snap-N-Shop/Snap-N-Shop-API/Snap-N-Shop-API.csproj",
   "expectedPackageFiles": [
     "/Users/sainty/.nuget/packages/azure.core/1.38.0/azure.core.1.38.0.nupkg.sha512",
     "/Users/sainty/.nuget/packages/azure.identity/1.11.4/azure.identity.1.11.4.nupkg.sha512",
