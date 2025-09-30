@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-auth',
-  imports: [FormsModule],
   templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.css']
+  imports: [FormsModule, CommonModule]
 })
 export class AuthComponent {
   email: string = '';
   otp: string = '';
-  otpStep: boolean = false; // false = email phase, true = otp phase
+  otpStep: boolean = false;
 
   constructor(private router: Router) {}
 
@@ -21,10 +21,10 @@ export class AuthComponent {
       return;
     }
 
-    // 👉 Call your API to send OTP here
+    // 👉 Call your backend API here to send OTP
     console.log("Sending OTP to:", this.email);
 
-    // If success:
+    // On success:
     this.otpStep = true;
   }
 
@@ -37,7 +37,7 @@ export class AuthComponent {
     // 👉 Call your API to verify OTP here
     console.log("Verifying OTP:", this.otp);
 
-    // If success:
+    // On success:
     this.router.navigate(['/browse']);
   }
 }
