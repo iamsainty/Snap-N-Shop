@@ -12,32 +12,68 @@ export class AuthComponent {
   email: string = '';
   otp: string = '';
   otpStep: boolean = false;
+  loading: boolean = false;
+
+  serverUrl: string = 'http://0.0.0.0:80';
 
   constructor(private router: Router) {}
 
-  sendOtp() {
+  async sendOtp() {
+    this.loading = true;
     if (!this.email) {
       alert("Please enter your email");
       return;
     }
 
-    // 👉 Call your backend API here to send OTP
-    console.log("Sending OTP to:", this.email);
+    const url = `${this.serverUrl}/customer/send-otp`;
 
-    // On success:
-    this.otpStep = true;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers : {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email: this.email })
+    });
+
+    const data = await response.json();
+    console.log(data);
+
+    if(data.success) {
+      this.otpStep = true;
+    } else {
+      alert(data.message);
+    }
+
+    this.loading = false;
   }
 
-  verifyOtp() {
+  async verifyOtp() {
+    this.loading = true;
     if (!this.otp || this.otp.length !== 6) {
       alert("Please enter valid 6 digit OTP");
       return;
     }
 
-    // 👉 Call your API to verify OTP here
-    console.log("Verifying OTP:", this.otp);
+    const url = `${this.serverUrl}/customer/verify-otp`;
 
-    // On success:
-    this.router.navigate(['/browse']);
+    const response = await fetch(url, {
+      method: 'POST',
+      headers : {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email: this.email, otp: this.otp })
+    });
+
+    const data = await response.json();
+    console.log(data);
+
+    if(data.success) {
+      localStorage.setItem('customerToken', data.customerToken);
+      this.router.navigate(['/browse']);
+    } else {
+      alert(data.message);
+    }
+
+    this.loading = false;
   }
 }

@@ -9,7 +9,8 @@
       <p class="text-xl mb-2">Welcome to</p>
       <h2 class="text-5xl font-extrabold mb-4">Snap-N-Shop</h2>
       <p class="text-lg max-w-md leading-relaxed">
-        Browse and shop the best deals curated just for you. Discover amazing products at unbeatable prices!
+        Browse and shop the best deals curated just for you. Discover amazing
+        products at unbeatable prices!
       </p>
     </div>
 
@@ -44,6 +45,7 @@
         </div>
         <!-- Buttons -->
         <button
+          [disabled]="loading"
           *ngIf="!otpStep"
           (click)="sendOtp()"
           class="w-full bg-rose-500 hover:bg-white hover:text-rose-500 border-2 border-rose-500 hover:cursor-pointer text-white py-3 rounded-lg font-semibold transition"
@@ -52,6 +54,7 @@
         </button>
 
         <button
+          [disabled]="loading"
           *ngIf="otpStep"
           (click)="verifyOtp()"
           class="w-full bg-rose-500 hover:bg-white hover:text-rose-500 border-2 border-rose-500 hover:cursor-pointer text-white py-3 rounded-lg font-semibold transition"
