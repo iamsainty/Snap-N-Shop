@@ -38,5 +38,70 @@
   </div>
 
   <!-- main content -->
-  <div class="w-5/6 h-[85vh] bg-white shadow-xl rounded-t-xl"></div>
+  <div
+    class="relative w-5/6 flex flex-col align-center h-[85vh] bg-white shadow-xl rounded-t-xl overflow-auto [&::-webkit-scrollbar]:hidden scrollbar-none"
+  >
+    <div
+      class="sticky top-0 bg-white px-10 py-8 w-full flex flex-col md:flex-row justify-start items-start md:items-center gap-4 md:gap-6 z-50"
+    >
+      <div class="text-lg md:text-xl font-semibold text-gray-800">
+        Search by category
+      </div>
+      <div
+        class="flex flex-wrap justify-start items-center gap-3 md:gap-4 mt-2 md:mt-0"
+      >
+        <div
+          *ngFor="
+            let category of [
+              'All',
+              'Electronics',
+              'Fashion',
+              'Home',
+              'Beauty',
+              'Sports',
+              'Toys',
+              'Other'
+            ]
+          "
+          class="bg-rose-500 text-white px-4 md:px-5 py-1 rounded-xl hover:bg-white hover:text-rose-500 border border-rose-500 cursor-pointer flex items-center justify-center"
+        >
+          <div class="font-semibold">{{ category }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="w-11/12 mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+    >
+      <div *ngFor="let product of products">
+        <div
+          class="bg-gradient-to-b from-rose-100 to-white border border-rose-400 p-3 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-200"
+        >
+          <div class="w-full h-48 overflow-hidden rounded-xl">
+            <img
+              [src]="product.imageUrl"
+              alt="Product Image"
+              class="w-full h-full object-cover transform hover:scale-105 transition-transform duration-300"
+            />
+          </div>
+          <h3
+            class="text-lg font-semibold mt-3 line-clamp-1 px-1 text-rose-800"
+          >
+            {{ product.productName }}
+          </h3>
+          <p class="text-sm text-rose-700 line-clamp-2 mt-1 px-1">
+            {{ product.productDescription }}
+          </p>
+          <p class="text-md font-bold text-rose-900 mt-2 px-1">
+            {{ product.price * 100 | currency : "INR" }}
+          </p>
+          <button
+            class="w-full bg-rose-500 hover:bg-rose-600 text-white font-medium py-2 rounded-lg mt-3 transition-colors duration-200"
+          >
+            Add to Cart
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
