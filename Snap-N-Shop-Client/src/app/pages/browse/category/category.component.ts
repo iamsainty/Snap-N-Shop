@@ -13,10 +13,12 @@ export class CategoryComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private router: Router) {}
 
+  serverUrl : string = 'http://0.0.0.0:80';
   category: string = '';
+  cartItems: any[] = [];
 
   allowedCategories: string[] = ['groceries', 'smartphones', 'sports', 'kitchen', 'clothing', 'footwear'];
-
+  
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.category = params['category'].toLowerCase();
@@ -26,13 +28,13 @@ export class CategoryComponent implements OnInit {
       console.log(this.category);
       this.getProducts();
       console.log(this.products);
+      this.getCartItems();
     })
   }
 
   products: any[] = [];
   async getProducts() {
-    const serverUrl = 'http://0.0.0.0:80';
-    const url = `${serverUrl}/product/category-product`;
+    const url = `${this.serverUrl}/product/category-product`;
     const response = await fetch(url, {
       method: 'POST',
       headers: {
@@ -52,4 +54,54 @@ export class CategoryComponent implements OnInit {
     }
     this.router.navigate(['/browse', category]);
   }
+
+  async getCartItems() {
+    const customerToken = localStorage.getItem('customerToken');
+    if(!customerToken) {
+      this.router.navigate(['/auth']);
+      return;
+    }
+    console.log(customerToken)
+    const url = `${this.serverUrl}/cart/fetch-cart`;
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${customerToken}`
+      }
+    });
+    const data = await response.json();
+    console.log(data);
+    if(data.success) {
+      this.cartItems = data.cartItems.map((item: any) => item.productId);
+      console.log(this.cartItems);
+    }
+  }
+
+  async addToCart(productId: number) {
+    const customerToken = localStorage.getItem('customerToken');
+    if(!customerToken) {
+      this.router.navigate(['/auth']);
+      return;
+    }
+    const url = `${this.serverUrl}/cart/add-to-cart`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${customerToken}`
+      },
+      body: JSON.stringify({ productId: productId })
+    });
+    const data = await response.json();
+    console.log(data);
+    if(data.success) {
+      this.getCartItems();
+    }
+  }
+
+  goToCart() {
+    this.router.navigate(['/cart']);
+  }
+
 }

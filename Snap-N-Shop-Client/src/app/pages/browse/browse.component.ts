@@ -11,19 +11,19 @@ import { Router } from '@angular/router';
 })
 export class BrowseComponent {
   products: any[] = [];
+  cartItems: any[] = [];
+  serverUrl : string = 'http://0.0.0.0:80';
 
   constructor(private router: Router) {}
 
     ngOnInit() {
     this.getProducts().then(() => {
       console.log(this.products);
-      this.uniqueCategories();
-      this.uniqueCategoriesWithFrequency();
+      this.getCartItems();
     });
   }
   async getProducts() {
-    const serverUrl = 'http://0.0.0.0:80';
-    const url = `${serverUrl}/product/all-product`;
+    const url = `${this.serverUrl}/product/all-product`;
 
     const response = await fetch(url, {
       method: 'GET',
@@ -35,20 +35,27 @@ export class BrowseComponent {
     this.products = data.products;
   }
 
-  // get all unique categories with their frequency
-  uniqueCategoriesWithFrequency() {
-    this.categories = [...new Set(this.products.map(product => product.categoryName))];
-    this.categories.forEach(category => {
-      const frequency = this.products.filter(product => product.categoryName === category).length;
-      console.log(category, frequency);
+  async getCartItems() {
+    const customerToken = localStorage.getItem('customerToken');
+    if(!customerToken) {
+      this.router.navigate(['/auth']);
+      return;
+    }
+    console.log(customerToken)
+    const url = `${this.serverUrl}/cart/fetch-cart`;
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${customerToken}`
+      }
     });
-  }
-
-  categories: string[] = [];
-
-  uniqueCategories() {
-    this.categories = [...new Set(this.products.map(product => product.categoryName))];
-    console.log(this.categories);
+    const data = await response.json();
+    console.log(data);
+    if(data.success) {
+      this.cartItems = data.cartItems.map((item: any) => item.productId);
+      console.log(this.cartItems);
+    }
   }
 
   navigateToCategory(category: string) {
@@ -57,6 +64,32 @@ export class BrowseComponent {
       return;
     }
     this.router.navigate(['/browse', category]);
+  }
+
+  async addToCart(productId: number) {
+    const customerToken = localStorage.getItem('customerToken');
+    if(!customerToken) {
+      this.router.navigate(['/auth']);
+      return;
+    }
+    const url = `${this.serverUrl}/cart/add-to-cart`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${customerToken}`
+      },
+      body: JSON.stringify({ productId: productId })
+    });
+    const data = await response.json();
+    console.log(data);
+    if(data.success) {
+      this.getCartItems();
+    }
+  }
+
+  goToCart() {
+    this.router.navigate(['/cart']);
   }
 
 }
