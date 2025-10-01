@@ -13,6 +13,8 @@ export class BrowseComponent {
   ngOnInit() {
     this.getProducts().then(() => {
       console.log(this.products);
+      this.uniqueCategories();
+      this.uniqueCategoriesWithFrequency();
     });
   }
   async getProducts() {
@@ -28,4 +30,21 @@ export class BrowseComponent {
     const data: any = await response.json();
     this.products = data.products;
   }
+
+  // get all unique categories with their frequency
+  uniqueCategoriesWithFrequency() {
+    this.categories = [...new Set(this.products.map(product => product.categoryName))];
+    this.categories.forEach(category => {
+      const frequency = this.products.filter(product => product.categoryName === category).length;
+      console.log(category, frequency);
+    });
+  }
+
+  categories: string[] = [];
+
+  uniqueCategories() {
+    this.categories = [...new Set(this.products.map(product => product.categoryName))];
+    console.log(this.categories);
+  }
+
 }
