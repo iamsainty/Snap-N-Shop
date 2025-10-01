@@ -1,1 +1,166 @@
-<p>cart works!</p>
+<div
+  class="flex flex-col min-h-screen w-full justify-start items-center bg-gradient-to-br from-rose-500 to-rose-600"
+>
+  <!-- fixed content -->
+  <div class="h-[15vh] w-5/6 flex justify-between items-center px-6">
+    <div
+      class="w-1/4 text-2xl font-bold text-white blend-multiply tracking-widest"
+    >
+      Snap-N-Shop
+    </div>
+    <div
+      class="w-1/3 flex justify-center items-center bg-white rounded-full gap-4"
+    >
+      <!-- search bar here -->
+      <input
+        type="text"
+        placeholder="Search for products"
+        class="w-full focus:outline-none px-5 py-2 text-md"
+      />
+      <div
+        class="h-full p-2 border border-white bg-rose-500 hover:bg-white hover:text-rose-500 transition-all duration-300 text-white rounded-full flex items-center justify-center cursor-pointer"
+      >
+        <mat-icon class="text-2xl">search</mat-icon>
+      </div>
+    </div>
+    <div class="w-1/4 flex justify-end items-center gap-6">
+      <div
+        class="flex items-center gap-3 bg-white rounded-full px-4 py-1 cursor-pointer"
+      >
+        <p class="text-sm font-semibold">Cart</p>
+        <mat-icon class="text-sm" style="color: red; cursor: pointer"
+          >shopping_cart</mat-icon
+        >
+      </div>
+      <div class="flex items-center gap-2 bg-white rounded-full px-2 py-1">
+        <mat-icon class="text-2xl" style="color: red; cursor: pointer"
+          >person</mat-icon
+        >
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="relative w-5/6 flex flex-col align-center h-[85vh] bg-white shadow-xl rounded-t-xl overflow-auto [&::-webkit-scrollbar]:hidden scrollbar-none"
+  >
+    <div class="sticky top-0 bg-white p-8 mb-5 z-50">
+      <p class="text-lg font-medium text-gray-800 tracking-wider">
+        You are just a
+        <span class="text-rose-500 text-2xl font-bold">click</span> away from
+        making all these products yours
+      </p>
+    </div>
+    <div class="w-11/12 mx-auto flex justify-between items-start relative">
+      <!-- items of cart -->
+      <div class="w-7/12 flex flex-col justify-start items-start gap-6 mb-14">
+        <div *ngFor="let item of productCart">
+          <div class="w-full flex items-center gap-6">
+            <mat-icon class="text-2xl cursor-pointer" style="color: red"
+              >delete</mat-icon
+            >
+
+            <!-- Item Card -->
+            <div
+              class="flex items-start gap-4 bg-gradient-to-r from-rose-50 to-white p-4 rounded-xl w-full"
+            >
+              <!-- Image & Quantity Controls -->
+              <div class="flex flex-col items-center gap-3">
+                <img
+                  [src]="item.imageUrl"
+                  alt="product image"
+                  class="w-24 h-24 object-cover"
+                />
+                <div class="flex items-center gap-3">
+                  <button
+                    class="w-7 h-7 bg-rose-500 text-white rounded-md flex items-center justify-center hover:bg-rose-600 transition-colors"
+                  >
+                    +
+                  </button>
+                  <div class="min-w-[2rem] text-center font-medium">
+                    {{ item.quantity }}
+                  </div>
+                  <button
+                    class="w-7 h-7 bg-rose-500 text-white rounded-md flex items-center justify-center hover:bg-rose-600 transition-colors"
+                    [disabled]="item.quantity === 1"
+                  >
+                    -
+                  </button>
+                </div>
+              </div>
+
+              <!-- Item Details -->
+              <div class="flex flex-col justify-between flex-1">
+                <p class="text-lg font-semibold text-gray-800 truncate">
+                  {{ item.productName }}
+                </p>
+                <p class="text-sm text-gray-600 line-clamp-2">
+                  {{ item.productDescription | slice : 0 : 100 }}...
+                </p>
+                <p class="text-md font-bold text-rose-600 tracking-wide">
+                  {{ item.price * 100 | currency : "INR" }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- order details card -->
+      <div class="relative w-1/3">
+        <div
+          class="sticky top-0 border-2 border-rose-500 p-5 h-full rounded-2xl w-full bg-white shadow-md flex flex-col justify-between"
+        >
+          <!-- Header -->
+          <p
+            class="text-xl font-semibold tracking-wide text-gray-800 border-b pb-3"
+          >
+            Order Details
+          </p>
+
+          <!-- Details -->
+          <div class="flex flex-col gap-4 mt-4 text-gray-700 flex-1">
+            <div class="flex justify-between">
+              <span>Total Items</span>
+              <span class="font-medium">{{ totalItems }}</span>
+            </div>
+            <div class="flex justify-between">
+              <span>Total Price</span>
+              <span class="font-medium">{{
+                totalPrice | currency : "INR"
+              }}</span>
+            </div>
+            <div class="flex justify-between">
+              <span>Total Tax</span>
+              <span class="font-medium text-rose-600"
+                >+ {{ totalTax | currency : "INR" }}</span
+              >
+            </div>
+            <div
+              class="flex justify-between border-t pt-2 text-lg font-semibold text-gray-900"
+            >
+              <span>Total Amount</span>
+              <span class="text-rose-600">{{
+                totalAmount | currency : "INR"
+              }}</span>
+            </div>
+            <div class="flex justify-between text-sm text-gray-500 mt-2">
+              <span>Expected Delivery</span>
+              <span>{{ expectedDeliveryDate | date : "mediumDate" }}</span>
+            </div>
+          </div>
+
+          <!-- Checkout Button -->
+          <button
+            class="mt-6 w-full bg-white border border-rose-500 text-rose-500 py-2 rounded-xl font-medium hover:bg-rose-500 hover:text-white transition-colors"
+          >
+            Add more items
+          </button>
+          <button
+            class="mt-2 w-full bg-rose-500 border border-rose-500 text-white py-2 rounded-xl font-medium hover:bg-white hover:text-rose-500 transition-colors"
+          >
+            Proceed to Checkout
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
