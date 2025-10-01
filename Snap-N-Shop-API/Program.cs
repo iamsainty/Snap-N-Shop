@@ -2,6 +2,7 @@ using Snap_N_Shop_API.Data;
 using Microsoft.EntityFrameworkCore;
 using Snap_N_Shop_API.Services;
 using Snap_N_Shop_API.Endpoints;
+using Snap_N_Shop_API.Services.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,12 @@ builder.Services.AddDbContext<MyDbContext>(
 );
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<MyDbContext>();
+    await SeedData.Seed(dbContext);
+}
 
 app.UseCors("AllowAll");
 
