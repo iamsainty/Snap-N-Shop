@@ -5,12 +5,14 @@ import { NgModule } from '@angular/core';
 import { AuthComponent } from './pages/auth/auth.component';
 import { BrowseComponent } from './pages/browse/browse.component';
 import { CategoryComponent } from './pages/browse/category/category.component';
+import { CartComponent } from './pages/cart/cart.component';
 
 export const routes: Routes = [
     {path : '', component : HomeComponent},
     {path : 'auth', component : AuthComponent},
     {path : 'browse', component : BrowseComponent},
-    {path : 'browse/:category', component : CategoryComponent}
+    {path : 'browse/:category', component : CategoryComponent},
+    {path : 'cart', component : CartComponent}
 ];
 
 @NgModule({

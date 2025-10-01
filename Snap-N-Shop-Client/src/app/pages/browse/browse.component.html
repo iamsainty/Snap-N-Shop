@@ -24,7 +24,10 @@
       </div>
     </div>
     <div class="w-1/4 flex justify-end items-center gap-6">
-      <div class="flex items-center gap-3 bg-white rounded-full px-4 py-1">
+      <div
+        class="flex items-center gap-3 bg-white rounded-full px-4 py-1 cursor-pointer"
+        (click)="goToCart()"
+      >
         <p class="text-sm font-semibold">Cart</p>
         <mat-icon class="text-sm" style="color: red; cursor: pointer"
           >shopping_cart</mat-icon
