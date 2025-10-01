@@ -18,12 +18,15 @@ export class CategoryComponent implements OnInit {
   allowedCategories: string[] = ['groceries', 'smartphones', 'sports', 'kitchen', 'clothing', 'footwear'];
 
   ngOnInit(): void {
-    this.category = this.route.snapshot.params['category'].toLowerCase();
-    if(!this.allowedCategories.includes(this.category)) {
-      this.router.navigate(['/browse']);
-    }
-    console.log(this.category);
-    this.getProducts();
+    this.route.params.subscribe((params) => {
+      this.category = params['category'].toLowerCase();
+      if(!this.allowedCategories.includes(this.category)) {
+        this.router.navigate(['/browse']);
+      }
+      console.log(this.category);
+      this.getProducts();
+      console.log(this.products);
+    })
   }
 
   products: any[] = [];
@@ -38,7 +41,15 @@ export class CategoryComponent implements OnInit {
       body: JSON.stringify({ categoryName: this.category })
     });
     const data: any = await response.json();
-    console.log(data);
     this.products = data.products;
+  }
+
+
+  navigateToCategory(category: string) {
+    if(category === 'all') {
+      this.router.navigate(['/browse']);
+      return;
+    }
+    this.router.navigate(['/browse', category]);
   }
 }

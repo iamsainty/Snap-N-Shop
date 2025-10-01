@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-browse',
@@ -10,7 +11,10 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class BrowseComponent {
   products: any[] = [];
-  ngOnInit() {
+
+  constructor(private router: Router) {}
+
+    ngOnInit() {
     this.getProducts().then(() => {
       console.log(this.products);
       this.uniqueCategories();
@@ -45,6 +49,14 @@ export class BrowseComponent {
   uniqueCategories() {
     this.categories = [...new Set(this.products.map(product => product.categoryName))];
     console.log(this.categories);
+  }
+
+  navigateToCategory(category: string) {
+    if(category === 'all') {
+      this.router.navigate(['/browse']);
+      return;
+    }
+    this.router.navigate(['/browse', category]);
   }
 
 }
