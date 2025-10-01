@@ -4,7 +4,7 @@ namespace Snap_N_Shop_API.DTO.ProductDTO.FetchProduct
 {
     public class CategoryProductRequest
     {
-        public int CategoryId { get; set; }
+        public string CategoryName { get; set; } = string.Empty;
     }
     public class CategoryProductResponse
     {

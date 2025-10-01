@@ -73,7 +73,7 @@ namespace Snap_N_Shop_API.Endpoints
             {
                 try
                 {
-                    var products = await db.Products.Where(p => p.CategoryId == request.CategoryId).ToListAsync();
+                    var products = await db.Products.Where(p => p.CategoryName == request.CategoryName).ToListAsync();
                     if (products == null)
                     {
                         return Results.Json(new CategoryProductResponse

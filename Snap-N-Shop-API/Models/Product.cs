@@ -20,7 +20,7 @@ namespace Snap_N_Shop_API.Models
         [Column(TypeName = "decimal(10,2)")]
         public decimal Price { get; set; }
 
-        public int CategoryId { get; set; }
+        public string CategoryName { get; set; } = null!;
         public Category? Category { get; set; }
 
         [MaxLength(500)]

@@ -5,6 +5,14 @@ using Snap_N_Shop_API.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+    });
+});
+
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("SmtpSettings"));
 builder.Services.AddTransient<EmailService>();
@@ -14,6 +22,8 @@ builder.Services.AddDbContext<MyDbContext>(
 );
 
 var app = builder.Build();
+
+app.UseCors("AllowAll");
 
 app.MapCustomerEndpoints();
 app.MapProductEndpoints();
