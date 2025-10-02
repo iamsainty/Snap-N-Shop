@@ -97,6 +97,11 @@ I will be writing a detailed blog about this project, including behind-the-scene
 
 [Snap-N-Shop Blog on Hey Sainty](https://hey-sainty.vercel.app/blog/snap-n-shop)
 
+## Demo video
+
+You can click on the link below to see a dmeo video of the appliaction MVP
+[Click here for the Video](https://drive.google.com/file/d/1deL4toNMpEodIcaNszz8CGLvVXhk54ea/view?usp=sharing)
+
 ## License
 
 This project is for training purposes and does not have a public license.
