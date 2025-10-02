@@ -40,9 +40,5 @@ namespace Snap_N_Shop_API.Models
 
         [Required]
         public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
-
-        // Navigation
-        public ICollection<Cart> CartItems { get; set; } = new HashSet<Cart>();
-        public ICollection<Order> Orders { get; set; } = new HashSet<Order>();
     }
 }
