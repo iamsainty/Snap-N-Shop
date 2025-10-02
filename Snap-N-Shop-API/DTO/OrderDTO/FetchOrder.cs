@@ -6,6 +6,6 @@ namespace Snap_N_Shop_API.DTO.OrderDTO
     {
         public bool Success { get; set; } = false;
         public string Message { get; set; } = string.Empty;
-        public List<Order> Orders { get; set; } = [];
+        public List<OrderItem> Orders { get; set; } = [];
     }
 }

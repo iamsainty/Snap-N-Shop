@@ -64,10 +64,22 @@ namespace Snap_N_Shop_API.Endpoints
                     await db.SaveChangesAsync();
                     foreach (var item in items)
                     {
+                        var product = await db.Products.FirstOrDefaultAsync(p => p.ProductId == item.ProductId);
+                        if (product == null)
+                            {
+                                return Results.Json(new PlaceOrderResponse
+                                {
+                                    Success = false,
+                                    Message = "Product not found"
+                                });
+                            }
                         var orderItem = new OrderItem
                         {
+
+                            CustomerId = customer.CustomerId,
                             OrderId = order.OrderId,
                             ProductId = item.ProductId,
+                            Product = product,
                             Quantity = item.Quantity,
                             UnitPrice = item.UnitPrice,
                             CreatedAt = DateTime.UtcNow
@@ -122,8 +134,8 @@ namespace Snap_N_Shop_API.Endpoints
                             Message = "Customer not found"
                         });
                     }
-                    var orders = await db.Orders.Where(o => o.CustomerId == customer.CustomerId).ToListAsync();
-                    if (orders == null || orders.Count == 0)
+                    var orderItems = await db.OrderItems.Where(o => o.CustomerId == customer.CustomerId).ToListAsync();
+                    if (orderItems == null || orderItems.Count == 0)
                     {
                         return Results.Json(new FetchOrderResponse
                         {
@@ -136,7 +148,7 @@ namespace Snap_N_Shop_API.Endpoints
                     {
                         Success = true,
                         Message = "Orders fetched successfully",
-                        Orders = orders
+                        Orders = orderItems
                     });
                 }
                 catch (Exception ex)

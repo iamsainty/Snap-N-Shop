@@ -11,7 +11,7 @@ namespace Snap_N_Shop_API.Models
 
         [Required]
         public int OrderId { get; set; }
-        public Order? Order { get; set; }
+        public int CustomerId { get; set; }
 
         [Required]
         public int ProductId { get; set; }
@@ -23,7 +23,8 @@ namespace Snap_N_Shop_API.Models
         [Required]
         [Column(TypeName = "decimal(10,2)")]
         public decimal UnitPrice { get; set; }
-
+        public string PaymentMethod { get; set; } = "Cash";
+        public string PaymentStatus { get; set; } = "Pending";
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }
