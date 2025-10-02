@@ -71,4 +71,79 @@ export class CartComponent {
     const data: any = await response.json();
     this.products = data.products;
   }
+
+  public async removeItem(productId: number) {
+    const customerToken = localStorage.getItem('customerToken');
+    if (!customerToken) {
+      this.router.navigate(['/auth']);
+      return;
+    }
+
+    const url = `${this.serverUrl}/cart/remove-from-cart`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${customerToken}`
+      },
+      body: JSON.stringify({ productId: productId })
+    });
+    const data = await response.json();
+    if (data.success) {
+      this.loadCart();
+    }
+  }
+
+  public async increaseQuantity(productId: number) {
+    const customerToken = localStorage.getItem('customerToken');
+    if (!customerToken) {
+      this.router.navigate(['/auth']);
+      return;
+    }
+
+    const url = `${this.serverUrl}/cart/update-cart-item`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${customerToken}`
+      },
+      body: JSON.stringify({ productId: productId, incQty: true })
+    });
+    const data = await response.json();
+    if (data.success) {
+      this.loadCart();
+    }
+  }
+
+  public async decreaseQuantity(productId: number) {
+    const customerToken = localStorage.getItem('customerToken');
+    if (!customerToken) {
+      this.router.navigate(['/auth']);
+      return;
+    }
+
+    const url = `${this.serverUrl}/cart/update-cart-item`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${customerToken}`
+      },
+      body: JSON.stringify({ productId: productId, incQty: false })
+    });
+    const data = await response.json();
+    if (data.success) {
+      this.loadCart();
+    }
+  }
+
+  public goToBrowse() {
+    this.router.navigate(['/browse']);
+  }
+
+  public goToCheckout() {
+    this.router.navigate(['/checkout']);
+  }
+
 }
