@@ -3,8 +3,16 @@ using Microsoft.EntityFrameworkCore;
 using Snap_N_Shop_API.Services;
 using Snap_N_Shop_API.Endpoints;
 using Snap_N_Shop_API.Services.Data;
+using Snap_N_Shop_API.Services.AuthToken;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var connectionString = builder.Configuration["connectionString"];
+var jwtKey = builder.Configuration["jwtkey"];
+var jwtIssuer = builder.Configuration["jwtissuer"];
+var jwtAudience = builder.Configuration["jwtaudience"];
+var smtpUser = builder.Configuration["smtpusername"];
+var smtpPass = builder.Configuration["smtppass"];
 
 builder.Services.AddCors(options =>
 {
@@ -14,8 +22,17 @@ builder.Services.AddCors(options =>
     });
 });
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("SmtpSettings"));
+builder.Services.Configure<SmtpSettings>(options =>
+{
+    options.UserName = smtpUser ?? string.Empty;
+    options.Password = smtpPass ?? string.Empty;
+});
+builder.Services.Configure<JwtSettings>(options =>
+{
+    options.SecretKey = jwtKey ?? string.Empty;
+    options.Issuer = jwtIssuer ?? string.Empty;
+    options.Audience = jwtAudience ?? string.Empty;
+});
 builder.Services.AddTransient<EmailService>();
 
 builder.Services.AddDbContext<MyDbContext>(

@@ -12,9 +12,9 @@ namespace Snap_N_Shop_API.Services.AuthToken
         {
             try
             {
-                var secretKey = config["JwtSettings:SecretKey"];
-                var issuer = config["JwtSettings:Issuer"];
-                var audience = config["JwtSettings:Audience"];
+                var secretKey = config["jwtkey"];
+                var issuer = config["jwtissuer"];
+                var audience = config["jwtaudience"];
 
                 if (string.IsNullOrWhiteSpace(secretKey) || string.IsNullOrWhiteSpace(issuer) || string.IsNullOrWhiteSpace(audience))
                 {
