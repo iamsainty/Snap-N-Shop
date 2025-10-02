@@ -260,6 +260,60 @@ namespace Snap_N_Shop_API.Endpoints
                     });
                 }
             });
+
+            customerRoute.MapPost("/update-profile", async (UpdateProfileRequest request, HttpContext context, MyDbContext db) =>
+            {
+                try
+                {
+                    var authHeader = context.Request.Headers.Authorization.ToString();
+                    var customerToken = authHeader.StartsWith("Bearer ") ? authHeader[7..] : authHeader;
+
+                    var verificationResult = VerifyToken.Verify(new VerifyTokenRequest
+                    {
+                        CustomerToken = customerToken
+                    }, app.Configuration);
+                    if (!verificationResult.Success)
+                    {
+                        return Results.Json(new UpdateProfileResponse
+                        {
+                            Success = false,
+                            Message = verificationResult.Message
+                        });
+                    }
+                    var customer = await db.Customers.FirstOrDefaultAsync(c => c.Email == verificationResult.Email);
+                    if (customer == null)
+                    {
+                        return Results.Json(new UpdateProfileResponse
+                        {
+                            Success = false,
+                            Message = "Customer not found"
+                        });
+                    }
+                    customer.DisplayName = request.DisplayName;
+                    customer.PhoneNumber = request.PhoneNumber;
+                    customer.AddressLine1 = request.AddressLine1;
+                    customer.AddressLine2 = request.AddressLine2;
+                    customer.City = request.City;
+                    customer.State = request.State;
+                    customer.PostalCode = request.PostalCode;
+                    customer.Country = request.Country;
+                    await db.SaveChangesAsync();
+                    return Results.Json(new UpdateProfileResponse
+                    {
+                        Success = true,
+                        Message = "Profile updated successfully"
+                    });
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return Results.Json(new UpdateProfileResponse
+                    {
+                        Success = false,
+                        Message = "Unexpected error"
+                    });
+                }
+            });
         }
     }
 }

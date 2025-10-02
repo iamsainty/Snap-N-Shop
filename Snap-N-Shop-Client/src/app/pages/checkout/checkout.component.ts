@@ -73,11 +73,40 @@ export class CheckoutComponent {
     return true;
   }
 
-  public goToPayment() {
+  public async goToPayment() {
     if(!this.validateForm()) {
       alert("Please fill all fields");
       return;
     }
-    this.router.navigate(['/payment']);
+    const customerToken = localStorage.getItem('customerToken');
+    if(!customerToken) {
+      this.router.navigate(['/auth']);
+      return;
+    }
+    const url = `${this.serverUrl}/customer/update-profile`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${customerToken}`
+      },
+      body: JSON.stringify( {
+        displayName: this.form.value.displayName,
+        phone: this.form.value.phone,
+        addressLine1: this.form.value.addressLine1,
+        addressLine2: this.form.value.addressLine2,
+        city: this.form.value.city,
+        state: this.form.value.state,
+        pinCode: this.form.value.pinCode,
+        country: this.form.value.country,
+      })
+    });
+    const data = await response.json();
+    console.log(data);
+    if(data.success) {
+      this.router.navigate(['/payment']);
+    } else {
+      alert(data.message);
+    }
   }
 }
