@@ -67,7 +67,8 @@ export class CheckoutComponent {
   }
 
   public validateForm() : boolean {
-    if(this.form.invalid || this.form.value.displayName === '' || this.form.value.addressLine1 === '' || this.form.value.city === '' || this.form.value.state === '' || this.form.value.pinCode === '' || this.form.value.country === '' || this.form.value.phone === '') {
+    console.log(this.form.value);
+    if(this.form.value.displayName === '' || this.form.value.addressLine1 === '' || this.form.value.city === '' || this.form.value.state === '' || this.form.value.pinCode === '' || this.form.value.country === '' || this.form.value.phone === '') {
       return false;
     }
     return true;
