@@ -11,7 +11,7 @@ namespace Snap_N_Shop_API.Endpoints
     {
         public static void MapOrderEndpoints(this WebApplication app)
         {
-            var orderRoute = app.MapGroup("/api/order");
+            var orderRoute = app.MapGroup("/order");
 
             orderRoute.MapGet("/test", () => Results.Ok("Order endpoint is working"));
 
@@ -61,6 +61,7 @@ namespace Snap_N_Shop_API.Endpoints
                         CreatedAt = DateTime.UtcNow
                     };
                     db.Orders.Add(order);
+                    await db.SaveChangesAsync();
                     foreach (var item in items)
                     {
                         var orderItem = new OrderItem
@@ -74,8 +75,6 @@ namespace Snap_N_Shop_API.Endpoints
                         db.OrderItems.Add(orderItem);
                         db.CartItems.Remove(item);
                     }
-                    customer.CartItems.Clear();
-                    customer.Orders.Add(order);
                     await db.SaveChangesAsync();
                     return Results.Json(new PlaceOrderResponse
                     {
@@ -87,6 +86,63 @@ namespace Snap_N_Shop_API.Endpoints
                 {
                     Console.WriteLine(ex.Message);
                     return Results.Json(new PlaceOrderResponse
+                    {
+                        Success = false,
+                        Message = "Unexpected error"
+                    });
+                }
+            });
+
+            orderRoute.MapGet("/fetch-orders", async (HttpContext context, MyDbContext db) =>
+            {
+                try
+                {
+                    var authHeader = context.Request.Headers.Authorization.ToString();
+                    var customerToken = authHeader.StartsWith("Bearer ") ? authHeader[7..] : authHeader;
+
+                    var verificationResult = VerifyToken.Verify(new VerifyTokenRequest
+                    {
+                        CustomerToken = customerToken
+                    }, app.Configuration);
+                    if (!verificationResult.Success)
+                    {
+                        return Results.Json(new FetchOrderResponse
+                        {
+                            Success = false,
+                            Message = verificationResult.Message
+                        });
+                    }
+
+                    var customer = await db.Customers.FirstOrDefaultAsync(c => c.Email == verificationResult.Email);
+                    if (customer == null)
+                    {
+                        return Results.Json(new FetchOrderResponse
+                        {
+                            Success = false,
+                            Message = "Customer not found"
+                        });
+                    }
+                    var orders = await db.Orders.Where(o => o.CustomerId == customer.CustomerId).ToListAsync();
+                    if (orders == null || orders.Count == 0)
+                    {
+                        return Results.Json(new FetchOrderResponse
+                        {
+                            Success = false,
+                            Message = "No orders found",
+                            Orders = []
+                        });
+                    }
+                    return Results.Json(new FetchOrderResponse
+                    {
+                        Success = true,
+                        Message = "Orders fetched successfully",
+                        Orders = orders
+                    });
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return Results.Json(new FetchOrderResponse
                     {
                         Success = false,
                         Message = "Unexpected error"
