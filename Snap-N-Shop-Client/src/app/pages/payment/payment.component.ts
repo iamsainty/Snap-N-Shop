@@ -30,7 +30,26 @@ export class PaymentComponent {
     this.router.navigate(['/cart']);
   }
 
-  public placeOrder() {
-    this.router.navigate(['/orders']);
+  public async placeOrder() {
+    const customerToken = localStorage.getItem('customerToken');
+    if(!customerToken) {
+      this.router.navigate(['/auth']);
+      return;
+    }
+    const url = `${this.serverUrl}/order/place-order`;
+    const response = await fetch(url, {
+      method : "POST",
+      headers : {
+        'Content-Type' : 'application/json',
+        'Authorization' : `Bearer ${customerToken}`
+      }
+    });
+    const data = await response.json();
+    console.log(data);
+    if(data.success) {
+      this.router.navigate(['/orders']);
+    } else {
+      alert(data.message);
+    }
   }
 }
