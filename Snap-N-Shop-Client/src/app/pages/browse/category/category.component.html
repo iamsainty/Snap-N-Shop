@@ -25,18 +25,24 @@
     </div>
     <div class="w-1/4 flex justify-end items-center gap-6">
       <div
-        class="flex items-center gap-3 bg-white rounded-full px-4 py-1 cursor-pointer"
+        class="flex items-center gap-3 bg-white rounded-full px-4 py-1 cursor-pointer border border-white hover:bg-rose-500 hover:text-white"
         (click)="goToCart()"
       >
         <p class="text-sm font-semibold">Cart</p>
-        <mat-icon class="text-sm" style="color: red; cursor: pointer"
-          >shopping_cart</mat-icon
-        >
+        <mat-icon class="text-sm" style="color: red">shopping_cart</mat-icon>
       </div>
-      <div class="flex items-center gap-2 bg-white rounded-full px-2 py-1">
-        <mat-icon class="text-2xl" style="color: red; cursor: pointer"
-          >person</mat-icon
-        >
+      <div
+        class="flex items-center gap-3 bg-white rounded-full px-4 py-1 cursor-pointer border border-white hover:bg-rose-500 hover:text-white"
+        (click)="goToOrders()"
+      >
+        <p class="text-sm font-semibold">Orders</p>
+        <mat-icon class="text-sm" style="color: red">shopping_bag</mat-icon>
+      </div>
+      <div
+        class="flex items-center gap-2 bg-white rounded-full px-2 py-1 cursor-pointer border border-white hover:bg-rose-500 hover:text-white"
+        (click)="logout()"
+      >
+        <mat-icon class="text-2xl" style="color: red">logout</mat-icon>
       </div>
     </div>
   </div>

@@ -110,4 +110,15 @@ export class CheckoutComponent {
       alert(data.message);
     }
   }
+
+
+
+  goToOrders() {
+    this.router.navigate(['/orders']);
+  }
+
+  logout() {
+    localStorage.removeItem('customerToken');
+    this.router.navigate(['/auth']);
+  }
 }

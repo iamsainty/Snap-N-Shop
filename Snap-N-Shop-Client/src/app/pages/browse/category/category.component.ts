@@ -104,4 +104,13 @@ export class CategoryComponent implements OnInit {
     this.router.navigate(['/cart']);
   }
 
+  goToOrders() {
+    this.router.navigate(['/orders']);
+  }
+
+  logout() {
+    localStorage.removeItem('customerToken');
+    this.router.navigate(['/auth']);
+  }
+
 }

@@ -82,4 +82,15 @@ export class OrdersComponent {
   goToCart() {
     this.router.navigate(['/cart']);
   }
+
+
+
+  goToOrders() {
+    this.router.navigate(['/orders']);
+  }
+
+  logout() {
+    localStorage.removeItem('customerToken');
+    this.router.navigate(['/auth']);
+  }
 }

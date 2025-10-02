@@ -146,4 +146,13 @@ export class CartComponent {
     this.router.navigate(['/checkout']);
   }
 
+  goToOrders() {
+    this.router.navigate(['/orders']);
+  }
+
+  logout() {
+    localStorage.removeItem('customerToken');
+    this.router.navigate(['/auth']);
+  }
+
 }
