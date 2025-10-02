@@ -7,6 +7,7 @@ import { BrowseComponent } from './pages/browse/browse.component';
 import { CategoryComponent } from './pages/browse/category/category.component';
 import { CartComponent } from './pages/cart/cart.component';
 import { CheckoutComponent } from './pages/checkout/checkout.component';
+import { PaymentComponent } from './pages/payment/payment.component';
 
 export const routes: Routes = [
     {path : '', component : HomeComponent},
@@ -14,7 +15,8 @@ export const routes: Routes = [
     {path : 'browse', component : BrowseComponent},
     {path : 'browse/:category', component : CategoryComponent},
     {path : 'cart', component : CartComponent},
-    {path : 'checkout', component : CheckoutComponent}
+    {path : 'checkout', component : CheckoutComponent},
+    {path : 'payment', component : PaymentComponent}
 ];
 
 @NgModule({
