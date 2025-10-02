@@ -11,32 +11,66 @@ namespace Snap_N_Shop_API.Services.Data
     {
         public static async Task Seed(MyDbContext db)
         {
+            // first delete all data
+            // db.Categories.RemoveRange(db.Categories);
+            // db.EmailOtps.RemoveRange(db.EmailOtps);
+            // db.Products.RemoveRange(db.Products);
+            // db.CartItems.RemoveRange(db.CartItems);
+            // db.Orders.RemoveRange(db.Orders);
+            // db.OrderItems.RemoveRange(db.OrderItems);
+            // db.Customers.RemoveRange(db.Customers);
+            await db.SaveChangesAsync();
+
             if (!db.Products.Any())
             {
                 // fetch from https://dummyjson.com/products
                 var httpClient = new HttpClient();
-                var response = await httpClient.GetAsync("https://dummyjson.com/products");
+                var response = await httpClient.GetAsync("https://dummyjson.com/products?limit=0");
 
                 if (response.IsSuccessStatusCode)
                 {
                     var jsonString = await response.Content.ReadAsStringAsync();
 
                     var dummyData = JsonConvert.DeserializeObject<DummyProductResponse>(jsonString);
+
                     if (dummyData?.Products != null)
                     {
                         foreach (var item in dummyData.Products)
                         {
-                            var product = new Product
+                            if (item.Category == null) continue;
+
+                            // Normalize category names to lowercase
+                            var category = item.Category.ToLower();
+
+                            // Map categories to broader, clean names
+                            string? dbCategory = category switch
                             {
-                                ProductName = item.Title,
-                                ProductDescription = item.Description,
-                                Price = (decimal)item.Price,
-                                CategoryName = item.Category,
-                                ImageUrl = item.Images?.FirstOrDefault(),
-                                AverageRating = (decimal)item.Rating,
-                                InStock = item.Stock > 0
+                                "mens-shirts" => "Clothing",
+                                "womens-dresses" => "Clothing",
+                                "mens-shoes" => "Footwear",
+                                "womens-shoes" => "Footwear",
+                                "groceries" => "Groceries",
+                                "smartphones" => "Smartphones",
+                                "sports-accessories" => "Sports",
+                                "kitchen-accessories" => "Kitchen",
+                                _ => null
                             };
-                            db.Products.Add(product);
+
+                            if (dbCategory != null)
+                            {
+                                var product = new Product
+                                {
+                                    ProductName = item.Title,
+                                    ProductDescription = item.Description,
+                                    Price = (decimal)item.Price,
+                                    CategoryName = dbCategory.ToLower(),
+                                    ImageUrl = item.Images?.FirstOrDefault(),
+                                    AverageRating = (decimal)item.Rating,
+                                    InStock = item.Stock > 0
+                                };
+
+                                db.Products.Add(product);
+                            }
                         }
                         await db.SaveChangesAsync();
                         Console.WriteLine($"Seeded {dummyData.Products.Count} products");

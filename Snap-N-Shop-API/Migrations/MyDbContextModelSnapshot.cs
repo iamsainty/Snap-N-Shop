@@ -47,8 +47,6 @@ namespace Snap_N_Shop_API.Migrations
 
                     b.HasKey("CartItemId");
 
-                    b.HasIndex("CustomerId");
-
                     b.HasIndex("ProductId");
 
                     b.ToTable("CartItems");
@@ -282,19 +280,11 @@ namespace Snap_N_Shop_API.Migrations
 
             modelBuilder.Entity("Snap_N_Shop_API.Models.Cart", b =>
                 {
-                    b.HasOne("Snap_N_Shop_API.Models.Customer", "Customer")
-                        .WithMany("CartItems")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Snap_N_Shop_API.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Customer");
 
                     b.Navigation("Product");
                 });
@@ -302,7 +292,7 @@ namespace Snap_N_Shop_API.Migrations
             modelBuilder.Entity("Snap_N_Shop_API.Models.Order", b =>
                 {
                     b.HasOne("Snap_N_Shop_API.Models.Customer", "Customer")
-                        .WithMany("Orders")
+                        .WithMany()
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -341,13 +331,6 @@ namespace Snap_N_Shop_API.Migrations
             modelBuilder.Entity("Snap_N_Shop_API.Models.Category", b =>
                 {
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("Snap_N_Shop_API.Models.Customer", b =>
-                {
-                    b.Navigation("CartItems");
-
-                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("Snap_N_Shop_API.Models.Order", b =>

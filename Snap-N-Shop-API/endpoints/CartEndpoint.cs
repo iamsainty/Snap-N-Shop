@@ -120,7 +120,6 @@ namespace Snap_N_Shop_API.Endpoints
                     cartItem = new Cart
                     {
                         CustomerId = customer.CustomerId,
-                        Customer = customer,
                         ProductId = request.ProductId,
                         Product = product,
                         UnitPrice = product.Price,

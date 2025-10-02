@@ -16,6 +16,8 @@ namespace Snap_N_Shop_API.Endpoints
             {
                 try
                 {
+                    // first 15 products
+                    // var products = await db.Products.Take(15).ToListAsync();
                     var products = await db.Products.ToListAsync();
                     return Results.Json(new AllProductResponse
                     {
@@ -73,7 +75,8 @@ namespace Snap_N_Shop_API.Endpoints
             {
                 try
                 {
-                    var products = await db.Products.Where(p => p.CategoryName == request.CategoryName).ToListAsync();
+                    string categoryName = request.CategoryName.ToLower();
+                    var products = await db.Products.Where(p => p.CategoryName == categoryName).ToListAsync();
                     if (products == null)
                     {
                         return Results.Json(new CategoryProductResponse

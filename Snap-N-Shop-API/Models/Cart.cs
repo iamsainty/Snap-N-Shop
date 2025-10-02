@@ -11,7 +11,6 @@ namespace Snap_N_Shop_API.Models
 
         [Required]
         public int CustomerId { get; set; }
-        public Customer? Customer { get; set; }
 
         [Required]
         public int ProductId { get; set; }

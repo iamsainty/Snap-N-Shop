@@ -42,6 +42,10 @@ namespace Snap_N_Shop_API.Services.AuthToken
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = key,
+                    ValidateLifetime = false,
+                    ValidAudience = audience,
+                    ValidIssuer = issuer
                 }, out SecurityToken validatedToken);
 
                 var jwtToken = (JwtSecurityToken)validatedToken;
