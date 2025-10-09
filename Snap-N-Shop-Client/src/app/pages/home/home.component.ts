@@ -13,6 +13,18 @@ export class HomeComponent {
   cartItems: any[] = [];
   serverUrl : string = 'https://snap-n-shop.onrender.com';
 
+  searchQuery: string = '';
+
+  async onSearch(e: Event) {
+    const target = e.target as HTMLInputElement;
+    this.searchQuery = target.value.trim();
+
+    await this.getProducts();
+    if(this.searchQuery.length > 0) {
+      this.products = this.products.filter((product) => product.productName.toLowerCase().includes(this.searchQuery.toLowerCase()) || product.productDescription.toLowerCase().includes(this.searchQuery.toLowerCase()) );
+    }
+  }
+
   constructor(private router: Router) {}
 
     ngOnInit() {

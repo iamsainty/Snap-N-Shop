@@ -16,6 +16,7 @@
         type="text"
         placeholder="Search for products"
         class="w-full focus:outline-none px-5 py-2 text-md"
+        (input)="onSearch($event)"
       />
       <div
         class="h-full p-2 border border-white bg-rose-500 hover:bg-white hover:text-rose-500 transition-all duration-300 text-white rounded-full flex items-center justify-center cursor-pointer"
