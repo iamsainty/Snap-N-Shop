@@ -31,6 +31,7 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<MyDbContext>();
+    dbContext.Database.EnsureCreated();
     await SeedData.Seed(dbContext);
 }
 
