@@ -21,7 +21,7 @@ export class CartComponent {
   expectedDeliveryDate: string = '';
 
   router: Router = inject(Router);
-  serverUrl: string = 'http://0.0.0.0:80';
+  serverUrl: string = 'https://snap-n-shop.onrender.com';
 
   ngOnInit(): void {
     this.loadCart();

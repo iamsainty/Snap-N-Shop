@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
 })
 export class PaymentComponent {
 
-  serverUrl : string = 'http://0.0.0.0:80';
+  serverUrl : string = 'https://snap-n-shop.onrender.com';
   router: Router = inject(Router);
 
   ngOnInit(): void {

@@ -14,7 +14,7 @@ export class AuthComponent {
   otpStep: boolean = false;
   loading: boolean = false;
 
-  serverUrl: string = 'http://0.0.0.0:80';
+  serverUrl: string = 'https://snap-n-shop.onrender.com';
 
   constructor(private router: Router) {}
 

@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 export class OrdersComponent {
 
   router: Router = inject(Router);
-  serverUrl: string = 'http://0.0.0.0:80';
+  serverUrl: string = 'https://snap-n-shop.onrender.com';
 
   orders: any[] = [];
   products: any[] = [];

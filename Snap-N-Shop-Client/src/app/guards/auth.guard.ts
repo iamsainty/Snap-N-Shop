@@ -14,7 +14,7 @@ export const authGuard: CanActivateFn = async (route, state) => {
     router.navigate(['/auth']);
     return false;
   }
-  const serverUrl = 'http://0.0.0.0:80';
+  const serverUrl = 'https://snap-n-shop.onrender.com';
   const url = `${serverUrl}/customer/fetch-customer`;
   
 
