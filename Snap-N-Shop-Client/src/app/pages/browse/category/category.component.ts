@@ -18,7 +18,7 @@ export class CategoryComponent implements OnInit {
   cartItems: any[] = [];
 
   allowedCategories: string[] = ['groceries', 'smartphones', 'sports', 'kitchen', 'clothing', 'footwear'];
-  
+  searchQuery: string = '';
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.category = params['category'].toLowerCase();
@@ -53,6 +53,15 @@ export class CategoryComponent implements OnInit {
       return;
     }
     this.router.navigate(['/browse', category]);
+  }
+
+  async onSearch(e: Event) {
+    const target = e.target as HTMLInputElement;
+    this.searchQuery = target.value.trim();
+    await this.getProducts();
+    if(this.searchQuery.length > 0) {
+      this.products = this.products.filter((product) => product.productName.toLowerCase().includes(this.searchQuery.toLowerCase()) || product.productDescription.toLowerCase().includes(this.searchQuery.toLowerCase()) );
+    }
   }
 
   async getCartItems() {
