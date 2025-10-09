@@ -9,16 +9,17 @@ import { CartComponent } from './pages/cart/cart.component';
 import { CheckoutComponent } from './pages/checkout/checkout.component';
 import { PaymentComponent } from './pages/payment/payment.component';
 import { OrdersComponent } from './pages/orders/orders.component';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
     {path : '', component : HomeComponent},
     {path : 'auth', component : AuthComponent},
-    {path : 'browse', component : BrowseComponent},
-    {path : 'browse/:category', component : CategoryComponent},
-    {path : 'cart', component : CartComponent},
-    {path : 'checkout', component : CheckoutComponent},
-    {path : 'payment', component : PaymentComponent},
-    {path : 'orders', component : OrdersComponent}
+    {path : 'browse', component : BrowseComponent, canActivate : [authGuard]},
+    {path : 'browse/:category', component : CategoryComponent, canActivate : [authGuard]},
+    {path : 'cart', component : CartComponent, canActivate : [authGuard]},
+    {path : 'checkout', component : CheckoutComponent, canActivate : [authGuard]},
+    {path : 'payment', component : PaymentComponent, canActivate : [authGuard]},
+    {path : 'orders', component : OrdersComponent, canActivate : [authGuard]}
 ];
 
 @NgModule({

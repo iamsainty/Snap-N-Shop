@@ -1,11 +1,7 @@
 import { CanActivateFn } from '@angular/router';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { firstValueFrom } from 'rxjs';
 export const authGuard: CanActivateFn = async (route, state) => {
-
-  const http = inject(HttpClient);
 
   const router = inject(Router);
   
@@ -18,14 +14,13 @@ export const authGuard: CanActivateFn = async (route, state) => {
   const url = `${serverUrl}/customer/fetch-customer`;
   
 
-  const response: any = await firstValueFrom(
-    http.get(url, {
-      headers : {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${customerToken}`
-      }
-    })
-  )
+  const response = await fetch(url, {
+    method: 'GET',
+    headers : {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${customerToken}`
+    }
+  });
 
   console.log(response);
 
@@ -35,5 +30,6 @@ export const authGuard: CanActivateFn = async (route, state) => {
   if(data.success) {
     return true;
   }
+  router.navigate(['/']);
   return false;
 };
