@@ -28,11 +28,16 @@ builder.Services.AddDbContext<MyDbContext>(
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
+try
 {
+    using var scope = app.Services.CreateScope();
     var dbContext = scope.ServiceProvider.GetRequiredService<MyDbContext>();
     dbContext.Database.EnsureCreated();
     await SeedData.Seed(dbContext);
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"⚠️ Database initialization failed: {ex.Message}");
 }
 
 app.UseCors("AllowAll");
