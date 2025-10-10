@@ -67,6 +67,10 @@
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.4, )"
+            },
+            "Resend": {
+              "target": "Package",
+              "version": "[0.1.6, )"
             }
           },
           "imports": [
