@@ -1,5 +1,18 @@
 {
-    "rewrites": [
-      { "source": "/(.*)", "destination": "./src/index.html" }
+    "version": 2,
+    "builds": [
+      {
+        "src": "package.json",
+        "use": "@vercel/static-build",
+        "config": {
+          "distDir": "dist/snap-n-shop-client/browser"
+        }
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "./src/index.html"
+      }
     ]
   }
