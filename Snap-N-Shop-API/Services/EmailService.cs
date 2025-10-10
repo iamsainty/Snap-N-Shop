@@ -57,7 +57,7 @@ namespace Snap_N_Shop_API.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine("Error sending OTP email: " + ex.Message);
                 return false;
             }
         }
