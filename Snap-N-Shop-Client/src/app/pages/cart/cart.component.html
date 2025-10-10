@@ -2,14 +2,16 @@
   class="flex flex-col min-h-screen w-full justify-start items-center bg-gradient-to-br from-rose-500 to-rose-600"
 >
   <!-- fixed content -->
-  <div class="h-[15vh] w-5/6 flex justify-between items-center px-6">
+  <div
+    class="h-[15vh] w-7/8 flex flex-col md:flex-row justify-center md:justify-between items-center gap-4 md:gap-0 px-4 md:px-6"
+  >
     <div
-      class="w-1/4 text-2xl font-bold text-white blend-multiply tracking-widest"
+      class="w-full md:w-1/4 text-2xl font-bold text-white blend-multiply tracking-widest"
     >
       Snap-N-Shop
     </div>
     <div
-      class="w-1/3 flex justify-center items-center bg-white rounded-full gap-4"
+      class="w-1/3 hidden md:flex justify-center items-center bg-white rounded-full gap-4"
     >
       <!-- search bar here -->
       <input
@@ -23,7 +25,7 @@
         <mat-icon class="text-2xl">search</mat-icon>
       </div>
     </div>
-    <div class="w-1/4 flex justify-end items-center gap-6">
+    <div class="w-1/4 flex justify-center md:justify-end items-center gap-6">
       <div
         class="flex items-center gap-3 bg-white rounded-full px-4 py-1 cursor-pointer border border-white hover:bg-rose-500 hover:text-white"
       >
@@ -47,20 +49,26 @@
   </div>
 
   <div
-    class="relative w-5/6 flex flex-col align-center h-[85vh] bg-white shadow-xl rounded-t-xl overflow-auto [&::-webkit-scrollbar]:hidden scrollbar-none"
+    class="relative w-5/6 flex flex-col align-center h-[85vh] bg-white shadow-xl rounded-t-xl overflow-auto [&::-webkit-scrollbar]:hidden scrollbar-none pb-20"
   >
-    <div class="sticky top-0 bg-white p-8 mb-5 z-50">
-      <p class="text-lg font-medium text-gray-800 tracking-wider">
+    <div
+      class="sticky top-0 bg-white px-5 md:px-10 py-8 w-full flex flex-col md:flex-row justify-start items-start md:items-center gap-4 md:gap-6 z-50"
+    >
+      <p class="text-sm md:text-lg font-medium text-gray-800 tracking-wider">
         You are just a
-        <span class="text-rose-500 text-2xl font-bold">click</span> away from
-        making all these products yours
+        <span class="text-rose-500 text-xl md:text-2xl font-bold">click</span>
+        away from making all these products yours
       </p>
     </div>
-    <div class="w-11/12 mx-auto flex justify-between items-start relative">
+    <div
+      class="w-full md:w-11/12 mx-auto flex flex-col md:flex-row px-5 md:px-0 justify-between items-start relative"
+    >
       <!-- items of cart -->
-      <div class="w-7/12 flex flex-col justify-start items-start gap-6 mb-14">
+      <div
+        class="w-full md:w-7/12 flex flex-col justify-start items-start gap-6 mb-14"
+      >
         <div *ngFor="let item of productCart">
-          <div class="w-full flex items-center gap-6">
+          <div class="w-full flex flex-row items-center gap-6">
             <mat-icon
               class="text-2xl cursor-pointer"
               style="color: red"
@@ -70,7 +78,7 @@
 
             <!-- Item Card -->
             <div
-              class="flex items-start gap-4 bg-gradient-to-r from-rose-100 to-white p-4 rounded-xl w-full"
+              class="flex flex-col md:flex-row md:items-start gap-4 bg-gradient-to-b md:bg-gradient-to-r from-rose-100 to-white p-4 rounded-xl w-full"
             >
               <!-- Image & Quantity Controls -->
               <div class="flex flex-col items-center gap-3">
@@ -100,7 +108,7 @@
               </div>
 
               <!-- Item Details -->
-              <div class="flex flex-col justify-between flex-1">
+              <div class="flex flex-col justify-between flex-1 w-full">
                 <p class="text-lg font-semibold text-gray-800 truncate">
                   {{ item.productName }}
                 </p>
@@ -116,19 +124,19 @@
         </div>
       </div>
       <!-- order details card -->
-      <div class="relative w-1/3">
+      <div class="relative w-full md:w-1/3">
         <div
           class="sticky top-0 border-2 border-rose-500 p-5 h-full rounded-2xl w-full bg-white shadow-md flex flex-col justify-between"
         >
           <!-- Header -->
           <p
-            class="text-xl font-semibold tracking-wide text-gray-800 border-b pb-3"
+            class="text-sm md:text-xl font-semibold tracking-wide text-gray-800 border-b pb-3"
           >
             Order Details
           </p>
 
           <!-- Details -->
-          <div class="flex flex-col gap-4 mt-4 text-gray-700 flex-1">
+          <div class="flex flex-col gap-4 mt-4 text-sm md:text-gray-700 flex-1">
             <div class="flex justify-between">
               <span>Total Items</span>
               <span class="font-medium">{{ totalItems }}</span>
@@ -146,7 +154,7 @@
               >
             </div>
             <div
-              class="flex justify-between border-t pt-2 text-lg font-semibold text-gray-900"
+              class="flex justify-between border-t pt-2 text-sm md:text-lg font-semibold text-gray-900"
             >
               <span>Total Amount </span>
               <span class="text-rose-600">{{
@@ -157,13 +165,13 @@
 
           <!-- Checkout Button -->
           <button
-            class="mt-6 w-full bg-white border border-rose-500 text-rose-500 py-2 rounded-xl font-medium hover:bg-rose-500 hover:text-white transition-colors"
+            class="mt-6 w-full bg-white border border-rose-500 text-rose-500 py-2 rounded-xl font-medium hover:bg-rose-500 hover:text-white transition-colors text-sm md:text-base"
             (click)="goToBrowse()"
           >
             Add more items
           </button>
           <button
-            class="mt-2 w-full bg-rose-500 border border-rose-500 text-white py-2 rounded-xl font-medium hover:bg-white hover:text-rose-500 transition-colors"
+            class="mt-2 w-full bg-rose-500 border border-rose-500 text-white py-2 rounded-xl font-medium hover:bg-white hover:text-rose-500 transition-colors text-sm md:text-base"
             (click)="goToCheckout()"
           >
             Proceed to Checkout
