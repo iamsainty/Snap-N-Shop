@@ -8,6 +8,7 @@ using Snap_N_Shop_API.DTO.CustomerDTO.Token;
 using Snap_N_Shop_API.DTO.CustomerDTO.OtpAuth;
 using Snap_N_Shop_API.Services.AuthToken;
 using Snap_N_Shop_API.DTO.CustomerDTO.Profile;
+using System.Text.Json;
 
 namespace Snap_N_Shop_API.Endpoints
 {
@@ -48,8 +49,25 @@ namespace Snap_N_Shop_API.Endpoints
                     db.EmailOtps.Add(emailOtp);
                     await db.SaveChangesAsync();
 
-                    bool result = await emailService.SendOtpEmail(email, otp);
+                    var httpClient = new HttpClient();
+                    var response = await httpClient.PostAsJsonAsync("https://snap-n-shop-auth.vercel.app/send-otp", new { email = email, otp = otp });
 
+                    bool result = false;
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var jsonResponse = await response.Content.ReadAsStringAsync();
+
+                        using var document = JsonDocument.Parse(jsonResponse);
+
+                        if (document.RootElement.TryGetProperty("success", out var successProperty))
+                        {
+                            bool success = successProperty.GetBoolean();
+                            result = success;
+                        }
+
+                    }
+                
                     if (result)
                     {
                         return Results.Json(new SendOtpResponse
